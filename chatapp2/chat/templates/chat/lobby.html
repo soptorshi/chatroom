@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby</title>
+    <style>
+        *{
+            font-family: 'Press Start 2p';
+        }
+        h1,p{
+            color: green;
+        }
+        body{
+            background-color: black;
+        }
+        input,button{
+            background:transparent;
+            border: 2px dotted green;
+            color: green;
+            /* position: fixed; */
+            margin-bottom: 10px;
+            height: 30px;
+            width: 500px;
+        }
+        textarea:focus, input:focus{
+            outline: green;
+        }
+    </style> 
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        <center>
+            <div id="input-box">
+                <input type="text" name="room_code" placeholder="Enter Room code"><br>
+                <input type="text" name="username" placeholder="Enter username"><br>
+                <button>Enter</button><br>
+            </div>
+        </center>
+    </form>
+</body>
+</html>

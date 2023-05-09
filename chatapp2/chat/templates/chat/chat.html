@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <style>
+        *{
+            font-family: 'Press Start 2p';
+        }
+        h1,p{
+            color: green;
+        }
+        body{
+            background-color: black;
+        }
+        input{
+            background:transparent;
+            border: 1px solid green;
+            color: green;
+            position: fixed;
+            bottom: 10px;
+            margin-right: 5px;
+            width: 98.5%;
+            height: 5%;
+        }
+        textarea:focus, input:focus{
+            outline: green;
+        }
+    </style> 
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+    <h1>Group: {{room_code}}</h1>
+    <p>Username: {{user}}</p>
+    <p style="border-bottom:2px dotted green;"></p>
+
+    <form action="" id="form">
+        <input type="text" name="message" placeholder="Press Enter to send">
+    </form>
+
+    <div id="messages"></div>
+
+    <script type="text/javascript">
+        let url = `ws://${window.location.host}/chat/{{room_code}}`
+        const chatSocket = new WebSocket(url)
+
+        chatSocket.onmessage = function(e){
+            let data = JSON.parse(e.data)
+            console.log('Data:', data)
+
+            if(data.type === 'chat'){
+                let message = document.getElementById('messages')
+    
+                var html = `<div id="messages"><p>[{{user}}]:${data.message}</p></div>`
+                document.getElementById('messages').innerHTML += html
+            }
+        
+        }
+
+        let form = document.getElementById('form')
+        form.addEventListener('submit',(e)=>{
+            e.preventDefault()
+            let message = e.target.message.value
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }))
+            form.reset()
+        })
+    </script>
+</body>
+</html>
